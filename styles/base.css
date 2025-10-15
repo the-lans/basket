@@ -1,0 +1,111 @@
+/* Base Styles & CSS Variables */
+:root {
+    /* Color Palette */
+    --court-yellow: #F3D24B;
+    --tribune-red: #FF4D5A;
+    --tribune-blue: #39B8FF;
+    --line-white: #FFFFFF;
+    --accent-neon: #7CFFEA;
+    --ui-bg: rgba(255, 255, 255, 0.65);
+    --text-dark: #0E1320;
+    --text-light: #FFFFFF;
+    
+    /* Additional colors */
+    --shadow: rgba(14, 19, 32, 0.3);
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.95);
+    
+    /* Sizing */
+    --border-radius: 12px;
+    --border-radius-small: 6px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-size-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+    --font-size-sm: clamp(0.875rem, 2vw, 1rem);
+    --font-size-md: clamp(1rem, 2.5vw, 1.125rem);
+    --font-size-lg: clamp(1.25rem, 3vw, 1.5rem);
+    --font-size-xl: clamp(1.5rem, 4vw, 2rem);
+    --font-size-xxl: clamp(2rem, 5vw, 3rem);
+}
+
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dark);
+    background: linear-gradient(135deg, #0E1320 0%, #1a2332 100%);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* App Container */
+.app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Canvas */
+#game {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    background: #0E1320;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus Styles */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid var(--accent-neon);
+    outline-offset: 2px;
+}
+
+
+

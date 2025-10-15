@@ -1,0 +1,134 @@
+/* CSS Animations */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(124, 255, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(124, 255, 234, 0.6);
+    }
+}
+
+/* Animation Classes */
+.animate-slide-up {
+    animation: slideInUp 0.4s ease-out;
+}
+
+.animate-slide-down {
+    animation: slideInDown 0.4s ease-out;
+}
+
+.animate-shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Neon Border Animation */
+@keyframes neonBorder {
+    0%, 100% {
+        border-color: var(--accent-neon);
+        box-shadow: 0 0 10px var(--accent-neon);
+    }
+    50% {
+        border-color: var(--tribune-blue);
+        box-shadow: 0 0 20px var(--tribune-blue);
+    }
+}
+
+.neon-border {
+    animation: neonBorder 3s ease-in-out infinite;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .animate-slide-up,
+    .animate-slide-down,
+    .animate-shake,
+    .animate-glow,
+    .neon-border {
+        animation: none !important;
+    }
+    
+    .shotclock-value.warning {
+        animation: none !important;
+        color: var(--tribune-red);
+    }
+}
+
+
+
