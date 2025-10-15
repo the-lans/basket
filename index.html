@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Баскет — 1v1 Half-Court изометрическая игра">
+    <title>Баскет — 1v1</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/ui.css">
+    <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Main Canvas -->
+        <canvas id="game"></canvas>
+        
+        <!-- UI Overlay -->
+        <div id="ui-overlay" class="ui-overlay">
+            <!-- Menu будет управляться через сцены -->
+        </div>
+        
+        <!-- Loading Screen -->
+        <div id="loading" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Загрузка...</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loading-progress"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Entry Point -->
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
+
+
+

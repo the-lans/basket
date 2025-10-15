@@ -1,0 +1,31 @@
+{
+  "name": "basket-game",
+  "version": "1.0.0",
+  "description": "1v1 Half-Court Basketball Game in Isometric View",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve -p 3000",
+    "start": "npx serve -p 3000",
+    "lint": "eslint src/",
+    "format": "prettier --write \"src/**/*.js\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "game",
+    "basketball",
+    "canvas",
+    "isometric"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
+    "serve": "^14.2.0",
+    "typescript": "^5.2.0"
+  }
+}
+
+
+

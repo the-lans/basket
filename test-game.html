@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест игры Баскет</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            background: #0E1320;
+            color: white;
+        }
+        
+        #results {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .test {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #39B8FF;
+        }
+        
+        .test.pass {
+            border-left-color: #4CAF50;
+        }
+        
+        .test.fail {
+            border-left-color: #FF4D5A;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #39B8FF;
+            border-radius: 8px;
+        }
+        
+        button {
+            background: #39B8FF;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #2A9FE5;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏀 Тестирование игры «Баскет»</h1>
+    
+    <div>
+        <button onclick="runTests()">▶️ Запустить автотесты</button>
+        <button onclick="testManual()">🎮 Открыть игру для ручного теста</button>
+    </div>
+    
+    <div id="results"></div>
+    
+    <iframe id="game-frame" style="display:none;"></iframe>
+    
+    <script>
+        const results = document.getElementById('results');
+        const frame = document.getElementById('game-frame');
+        
+        async function runTests() {
+            results.innerHTML = '<h2>Запуск автотестов...</h2>';
+            
+            const tests = [];
+            
+            // Тест 1: Загрузка игры
+            tests.push({
+                name: 'Загрузка игры',
+                run: async () => {
+                    frame.style.display = 'block';
+                    frame.src = 'index.html';
+                    
+                    await new Promise(resolve => {
+                        frame.onload = resolve;
+                        setTimeout(resolve, 3000);
+                    });
+                    
+                    const gameWindow = frame.contentWindow;
+                    return !!gameWindow.game;
+                }
+            });
+            
+            // Тест 2: Переход в игру
+            tests.push({
+                name: 'Переход из меню в игру',
+                run: async () => {
+                    const gameWindow = frame.contentWindow;
+                    const btn = gameWindow.document.getElementById('btn-play');
+                    
+                    if (!btn) return false;
+                    
+                    btn.click();
+                    await new Promise(r => setTimeout(r, 1000));
+                    
+                    const scene = gameWindow.game?.sceneManager?.currentScene?.name;
+                    return scene === 'game';
+                }
+            });
+            
+            // Тест 3: Проверка состояния игры
+            tests.push({
+                name: 'Игра инициализирована',
+                run: async () => {
+                    const gameWindow = frame.contentWindow;
+                    const scene = gameWindow.game?.sceneManager?.currentScene;
+                    
+                    return !!(scene && scene.player && scene.ai && scene.ball);
+                }
+            });
+            
+            // Тест 4: Счёт и UI
+            tests.push({
+                name: 'UI и счёт работают',
+                run: async () => {
+                    const gameWindow = frame.contentWindow;
+                    const scene = gameWindow.game?.sceneManager?.currentScene;
+                    
+                    return scene.rules.playerScore === 0 && 
+                           scene.rules.aiScore === 0 &&
+                           scene.hud !== null;
+                }
+            });
+            
+            // Тест 5: Мяч у игрока
+            tests.push({
+                name: 'Мяч у игрока на старте',
+                run: async () => {
+                    const gameWindow = frame.contentWindow;
+                    const scene = gameWindow.game?.sceneManager?.currentScene;
+                    
+                    return scene.player.hasBall === true;
+                }
+            });
+            
+            // Тест 6: AI существует и двигается
+            tests.push({
+                name: 'AI может двигаться',
+                run: async () => {
+                    const gameWindow = frame.contentWindow;
+                    const scene = gameWindow.game?.sceneManager?.currentScene;
+                    const aiInitial = {x: scene.ai.x, y: scene.ai.y};
+                    
+                    // Симулировать движение
+                    for (let i = 0; i < 30; i++) {
+                        scene.ai.applyMovement(0, 1);
+                        scene.ai.update(0.016);
+                    }
+                    
+                    return scene.ai.x !== aiInitial.x || scene.ai.y !== aiInitial.y;
+                }
+            });
+            
+            // Тест 7: Дриблинг мяча
+            tests.push({
+                name: 'Анимация дриблинга работает',
+                run: async () => {
+                    const gameWindow = frame.contentWindow;
+                    const scene = gameWindow.game?.sceneManager?.currentScene;
+                    const ball = scene.ball;
+                    
+                    const z1 = ball.z;
+                    
+                    // Обновить мяч несколько раз
+                    for (let i = 0; i < 30; i++) {
+                        ball.update(0.016);
+                    }
+                    
+                    const z2 = ball.z;
+                    
+                    // Z должна меняться из-за анимации
+                    return Math.abs(z2 - z1) > 0.01;
+                }
+            });
+            
+            // Запуск тестов
+            let html = '<h2>Результаты тестирования:</h2>';
+            let passed = 0;
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.run();
+                    const status = result ? 'pass' : 'fail';
+                    const icon = result ? '✅' : '❌';
+                    
+                    html += `<div class="test ${status}">${icon} ${test.name}</div>`;
+                    if (result) passed++;
+                } catch (error) {
+                    html += `<div class="test fail">❌ ${test.name}: ${error.message}</div>`;
+                }
+            }
+            
+            html += `<h3>Пройдено: ${passed}/${tests.length}</h3>`;
+            results.innerHTML = html;
+        }
+        
+        function testManual() {
+            frame.style.display = 'block';
+            frame.src = 'index.html';
+            results.innerHTML = '<h2>Игра загружена. Проверь вручную:</h2>' +
+                '<ul>' +
+                '<li>✅ Поле центрировано, кольцо видно</li>' +
+                '<li>✅ Нет синих прямоугольников</li>' +
+                '<li>✅ Мяч отскакивает при дриблинге</li>' +
+                '<li>✅ Полная разметка корта</li>' +
+                '<li>✅ AI двигается</li>' +
+                '</ul>';
+        }
+    </script>
+</body>
+</html>
+

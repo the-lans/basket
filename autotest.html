@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Автотест</title>
+    <script>
+        // Автоматически открыть игру через 1 секунду
+        setTimeout(() => {
+            window.location.href = 'index.html';
+            
+            // Через 2 секунды после загрузки кликнуть на "Играть"
+            setTimeout(() => {
+                const btn = document.getElementById('btn-play');
+                if (btn) {
+                    btn.click();
+                }
+            }, 2000);
+        }, 1000);
+    </script>
+</head>
+<body>
+    <h1>Автотест запущен...</h1>
+    <p>Игра откроется автоматически через 1 секунду</p>
+</body>
+</html>
+
